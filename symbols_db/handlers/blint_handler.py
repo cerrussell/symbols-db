@@ -1,5 +1,5 @@
 from symbols_db.handlers.sqlite_handler import store_sbom_in_sqlite
-from symbols_db.utils import from_purl_to_rust_srcname, get_all_index_names, get_path_names_from_index_names
+from symbols_db.utils.rust import from_purl_to_rust_srcname, get_all_index_names, get_path_names_from_index_names
 
 
 import os

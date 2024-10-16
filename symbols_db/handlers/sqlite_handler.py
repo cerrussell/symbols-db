@@ -1,6 +1,3 @@
-from symbols_db.sqlite_handler import c, conn
-
-
 import datetime
 
 import sqlite3

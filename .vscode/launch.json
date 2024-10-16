@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/symbols_db/cli.py",
             "console": "integratedTerminal",
-            "args": "-c bom.json"
+            "args": "-c tests/bom.json"
         }
     ]
 }

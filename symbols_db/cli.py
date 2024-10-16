@@ -10,21 +10,45 @@ def arguments_parser():
         description='Stores Symbols for rust binaries')
     parser.add_argument(
         "-c",
-        "--cdxgen-report",
-        dest="report",
-        help="Path to the CDXGEN report file",
+        "--cdxgen-bom",
+        dest="bom",
+        help="Path to the CDXGEN bom file",
+    )
+    parser.add_argument(
+        "-cs",
+        "--add-cdxgen-db",
+        dest="add_cdxgen_db",
+        action="store_true",
+        help="This flag allows to add Cdxgen BOM to Database",
+    )
+    parser.add_argument(
+        "-b",
+        "--blint-sbom",
+        dest="blintsbom",
+        help="Path to the Blint SBOM for a binary",
+    )
+    parser.add_argument(
+        "-bs",
+        "--add-blint-db",
+        dest="add_blint_db",
+        action="store_true",
+        help="This flag allows to add blint SBOM to Database",
     )
     
     return parser.parse_args()
 
 def main():
-    print("this was just added")
-    args = arguments_parser()
-    print(args.report)
-    purllist = get_purl_from_bom(args.report)
-    build_crates_from_purl(purllist)
-    blint_on_crates_from_purl(purllist)
-    # download_crate_from_purl(purllist)
+    
+    args = vars(arguments_parser())
+    print(args['bom'])
+    if args['add_cdxgen_db']:
+        purllist = get_purl_from_bom(args['bom'])
+        build_crates_from_purl(purllist)
+        blint_on_crates_from_purl(purllist)
+        # download_crate_from_purl(purllist)
+    
+    if args['add_blint_db']:
+        
 
 if __name__ == "__main__":
     main()
