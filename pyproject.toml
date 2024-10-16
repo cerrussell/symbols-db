@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 
+[tool.poetry.scripts]
+symbols-db = 'symbols_db.cli:main'
 
 [build-system]
 requires = ["poetry-core"]

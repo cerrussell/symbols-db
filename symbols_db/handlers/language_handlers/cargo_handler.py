@@ -1,5 +1,13 @@
+from symbols_db.utils import from_purl_to_rust_srcname, get_all_index_names, get_path_names_from_index_names
+
+
 import os
-from utils import get_all_index_names, get_path_names_from_index_names, from_purl_to_rust_srcname
+
+
+def build_cargo_package(build_dir):
+    print(build_dir)
+    os.system(f"cargo build --manifest-path={build_dir}/Cargo.toml")
+
 
 def build_crates_from_purl(purllist):
     indexes = get_all_index_names()
@@ -14,6 +22,7 @@ def build_crates_from_purl(purllist):
                 build_cargo_package(os.path.join(package_location, purl))
                 break
 
-def build_cargo_package(build_dir):
-    print(build_dir)
-    os.system(f"cargo build --manifest-path={build_dir}/Cargo.toml")
+
+def download_crate_from_purl(purllist):
+    for purl in purllist:
+        os.system(f'cargo install {purl}')
