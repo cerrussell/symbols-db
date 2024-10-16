@@ -1,7 +1,19 @@
+from symbols_db.handlers.sqlite_handler import store_sbom_in_sqlite
+from symbols_db.utils import from_purl_to_rust_srcname, get_all_index_names, get_path_names_from_index_names
+
+
 import os
-from utils import get_all_index_names, get_path_names_from_index_names, from_purl_to_rust_srcname
-import json
-from sqlite_handler import store_sbom_in_sqlite
+
+
+def run_blint(build_dir, package_name):
+    os.system(f"blint sbom -i {build_dir} -o {build_dir}/sbom.json --exports-prefix {package_name}")
+
+
+def get_sbom_json(build_dir):
+    with open(os.path.join(build_dir, "sbom.json")) as sbom_file:
+        data = sbom_file.read()
+        return data
+
 
 def blint_on_crates_from_purl(purllist):
     indexes = get_all_index_names()
@@ -18,11 +30,3 @@ def blint_on_crates_from_purl(purllist):
                 data = get_sbom_json(os.path.join(package_location, purl))
                 store_sbom_in_sqlite(package, data)
                 break
-
-def run_blint(build_dir, package_name):
-    os.system(f"blint sbom -i {build_dir} -o {build_dir}/sbom.json --exports-prefix {package_name}")
-
-def get_sbom_json(build_dir):
-    with open(os.path.join(build_dir, "sbom.json")) as sbom_file:
-        data = sbom_file.read()
-        return data

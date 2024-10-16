@@ -1,5 +1,6 @@
 import json
 
+
 def get_purl_from_bom(datafile):
     with open(f'{datafile}') as bom_file:
         data = json.load(bom_file)
