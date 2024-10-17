@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -12,23 +13,74 @@ from symbols_db.utils.rust import (
 )
 from symbols_db import DEBUG_MODE, DELIMETER_BOM, WRAPDB_LOCATION
 
+
+class BlintBom:
+
+    def __init__(
+        self,
+        bomFormat=None,
+        specVersion=None,
+        serialNumber=None,
+        metadata=None,
+        components=None,
+        dependencies=None,
+        bom_string=None
+    ):
+        # self.bomFormat = bomFormat
+        # self.specVersion = specVersion
+        # self.serialNumber = serialNumber
+        # self.metadata = metadata
+        # self.components = components
+        # self.dependencies = dependencies
+        #TODO: remove bom_string and properly hanlde serialization and de
+        self.bom_string = None
+
+class Components:
+    def __init__(
+        self,
+        comp_type=None,
+        bom_ref=None,
+        name=None,
+        scope=None,
+        purl=None,
+        evidence=None,
+        properties=None,
+    ):
+        self.comp_type = comp_type
+        self.bom_ref = bom_ref
+        self.name = name
+        self.scope = scope
+        self.purl = purl
+        self.evidence = evidence
+        self.properties = properties
+
+
 def run_blint_on_file(project_name, file_path):
     # TODO: assume blint installed
-    blint_command = f"blint sbom --deep {file_path} -o {BOM_LOCATION}/{project_name}.json".split(" ")
+    blint_command = (
+        f"blint sbom --deep {file_path} -o {BOM_LOCATION/project_name}.json".split(" ")
+    )
     blint_output = subprocess.run(blint_command, cwd=WRAPDB_LOCATION)
-    
+
     if DEBUG_MODE:
         print(blint_output.stdout)
         print(blint_output.stderr)
 
+def get_blint_file(project_name):
+    # run after blint was running
+    blint_file = BOM_LOCATION / project_name / ".json"
+    blint_str = None
+    with open(blint_file, 'r') as f:
+        blint_str = f.read()
+    return blint_str
+
 def get_blint_internal_functions_exe(project_name):
     run_blint_on_file(project_name)
-    blint_file = Path(BOM_LOCATION)/ project_name / ".json"
+    blint_file = BOM_LOCATION / project_name / ".json"
 
-    if_string = get_properties_internal('internal:functions', blint_file)
+    if_string = get_properties_internal("internal:functions", blint_file)
     return if_string.split(DELIMETER_BOM)
 
-    
 
 def run_blint(build_dir, package_name):
     os.system(
