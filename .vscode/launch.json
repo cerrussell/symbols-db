@@ -11,6 +11,14 @@
             "program": "${workspaceFolder}/symbols_db/cli.py",
             "console": "integratedTerminal",
             "args": "-c tests/bom.json"
+        },
+        {
+            "name": "autogenerate",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/symbols_db/cli.py",
+            "console": "integratedTerminal",
+            "args": "-Z"
         }
     ]
 }

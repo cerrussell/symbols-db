@@ -10,7 +10,6 @@ DEBUG_MODE = True
 
 
 def meson_build(project_name):
-
     setup_command = f"meson setup build/{project_name} -Dwraps={project_name}".split(
         " "
     )
