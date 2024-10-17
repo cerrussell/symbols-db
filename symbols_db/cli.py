@@ -8,6 +8,7 @@ from symbols_db.handlers.cyclonedx_handler import get_purl_from_bom
 from symbols_db.handlers.git_handler import get_wrapdb_projects
 from symbols_db.handlers.language_handlers.cargo_handler import build_crates_from_purl
 
+
 def arguments_parser():
     parser = argparse.ArgumentParser(
         prog="symbols_db", description="Stores Symbols for rust binaries"

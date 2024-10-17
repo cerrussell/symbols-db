@@ -1,4 +1,8 @@
-from symbols_db.utils.rust import from_purl_to_rust_srcname, get_all_index_names, get_path_names_from_index_names
+from symbols_db.utils.rust import (
+    from_purl_to_rust_srcname,
+    get_all_index_names,
+    get_path_names_from_index_names,
+)
 
 
 import os
@@ -25,4 +29,4 @@ def build_crates_from_purl(purllist):
 
 def download_crate_from_purl(purllist):
     for purl in purllist:
-        os.system(f'cargo install {purl}')
+        os.system(f"cargo install {purl}")
