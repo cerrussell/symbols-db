@@ -10,3 +10,4 @@ DEBUG_MODE = True
 # constants
 WRAPDB_LOCATION = Path("./temp/wrapdb")
 BOM_LOCATION = Path("./temp/boms")
+BLINTDB_LOCATION = "blint.db"
