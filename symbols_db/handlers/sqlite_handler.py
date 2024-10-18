@@ -117,7 +117,7 @@ def add_projects(project_name, purl=None, cbom=None):
     connection.commit()
 
     # retrieve pid
-    c.execute("SELECT pid FROM Projects WHERE pname=?", (project_name, ))
+    c.execute("SELECT pid FROM Projects WHERE pname=?", (project_name,))
     res = c.fetchall()
 
     connection.commit()
@@ -128,7 +128,7 @@ def add_projects(project_name, purl=None, cbom=None):
 def add_binary(binary_file_path, project_id, blint_bom=None):
     if isinstance(binary_file_path, PurePath):
         binary_file_path = str(binary_file_path)
-    
+
     # truncate the binary file path
     binary_file_path = binary_file_path.split("subprojects/")[1]
 
@@ -140,7 +140,7 @@ def add_binary(binary_file_path, project_id, blint_bom=None):
     connection.commit()
 
     # retrieve bid
-    c.execute("SELECT bid FROM Binaries WHERE bname=?", (binary_file_path, ))
+    c.execute("SELECT bid FROM Binaries WHERE bname=?", (binary_file_path,))
     res = c.fetchall()
     connection.commit()
     return res[0][0]
@@ -149,8 +149,17 @@ def add_binary(binary_file_path, project_id, blint_bom=None):
 # add export
 def add_binary_export(infunc, bid):
 
+    def _fetch_bin_exists(bid, eid):
+        c.execute("SELECT bid FROM BinariesExports WHERE bid=? and eid=?", (bid, eid))
+        res = c.fetchall()[0][0]
+        connection.commit()
+        if res == bid:
+            return True
+        else:
+            return False
+
     def _fetch_infunc_row(infunc):
-        c.execute("SELECT rowid FROM Exports WHERE infunc=?", (infunc, ))
+        c.execute("SELECT rowid FROM Exports WHERE infunc=?", (infunc,))
         res = c.fetchall()
         connection.commit()
         return res
@@ -159,13 +168,16 @@ def add_binary_export(infunc, bid):
     pre_existing = _fetch_infunc_row(infunc)
     if pre_existing:
         eid = pre_existing[0][0]
-        c.execute("INSERT INTO BinariesExports (bid, eid) VALUES (?, ?)", (bid, eid))
-        connection.commit()
+        if _fetch_bin_exists(bid, eid):
+            c.execute(
+                "INSERT INTO BinariesExports (bid, eid) VALUES (?, ?)", (bid, eid)
+            )
+            connection.commit()
         return 0
-        
-    c.execute("INSERT INTO Exports (infunc) VALUES (?)", (infunc, ))
+
+    c.execute("INSERT INTO Exports (infunc) VALUES (?)", (infunc,))
     connection.commit()
-    
+
     eid = _fetch_infunc_row(infunc)[0][0]
 
     c.execute("INSERT INTO BinariesExports (bid, eid) VALUES (?, ?)", (bid, eid))

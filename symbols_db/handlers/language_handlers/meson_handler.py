@@ -40,7 +40,7 @@ def find_executables(project_name):
             # what is the value of variable `root`
             file_path = Path(root) / file
             if os.access(file_path, os.X_OK):
-                full_path = CWD/file_path
+                full_path = CWD / file_path
                 file_output = subprocess.run(["file", full_path], capture_output=True)
                 if b"ELF" in file_output.stdout:
                     executable_list.append(full_path)
