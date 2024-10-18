@@ -4,7 +4,7 @@ from symbols_db.utils.rust import (
     get_path_names_from_index_names,
 )
 
-
+from symbols_db import logger
 import os
 
 

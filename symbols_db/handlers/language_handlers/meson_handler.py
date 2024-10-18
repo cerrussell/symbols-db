@@ -3,6 +3,7 @@ import subprocess
 
 from symbols_db import logger, WRAPDB_LOCATION, CWD
 from pathlib import Path
+from symbols_db import logger
 
 
 # TODO: debug

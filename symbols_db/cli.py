@@ -2,6 +2,8 @@ import argparse
 import concurrent
 import concurrent.futures
 from time import sleep
+import sqlite3
+import traceback
 
 from symbols_db.handlers.blint_handler import (
     blint_on_crates_from_purl,
@@ -23,9 +25,13 @@ from symbols_db.handlers.sqlite_handler import (
 
 # TODO:remove
 from symbols_db.handlers.sqlite_handler import clear_sqlite_database, create_database
+from symbols_db import BLINTDB_LOCATION, logger
 
 clear_sqlite_database()
 create_database()
+
+# Logging
+
 
 
 def arguments_parser():
@@ -80,19 +86,37 @@ def build_run_blint_projects(project_list):
         executables_list.extend(execs)
     return executables_list
 
+def build_run_blint(project_name):
+    #
+    logger.debug(f'Running {project_name}')
+    try:
+        pid = add_projects( project_name)
+        meson_build(project_name)
+        execs = find_executables(project_name)
+        for files in execs:
+            strip_executables(files)
+            bid = add_binary(files, pid)
+            if_list = get_blint_internal_functions_exe(files)
+            for func in if_list:
+                add_binary_export(func, bid)
+    except Exception as e:
+        logger.info(f"error encountered with {project_name}")
+        logger.error(e)
+        logger.error(traceback.format_exc())
+        return [False]
+    return execs
 
 def meson_add_blint_bom_process(blintsbom):
     # get the list of project to be build
     projects_list = get_wrapdb_projects()
 
-    # build the projects parallely
-    build_run_blint_projects(projects_list)
+    # build the projects single threaded
+    # build_run_blint_projects(projects_list)
 
-    # create blint for each project
-
-    with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
-        parallel_futures = [executor.submit(sleep, 5)]
-        concurrent.futures.wait(parallel_futures)
+    # build projects multiprocess
+    with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
+        for project_name, executables in zip(projects_list, executor.map(build_run_blint, projects_list)):
+            print(f"Ran complete for {project_name} and we found {len(executables)}")
 
 
 def main():
@@ -100,10 +124,12 @@ def main():
     args = vars(arguments_parser())
     print(args["bom"])
     if args["add_cdxgen_db"]:
-        purllist = get_purl_from_bom(args["bom"])
-        build_crates_from_purl(purllist)
-        blint_on_crates_from_purl(purllist)
-        # download_crate_from_purl(purllist)
+        # Has been replaced
+        pass
+        # purllist = get_purl_from_bom(args["bom"])
+        # build_crates_from_purl(purllist)
+        # blint_on_crates_from_purl(purllist)
+        # # download_crate_from_purl(purllist)
 
     if args["auto"]:
         meson_add_blint_bom_process(args["blintsbom"])
