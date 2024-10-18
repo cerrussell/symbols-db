@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from symbols_db import WRAPDB_LOCATION, logger
+from symbols_db import logger, WRAPDB_LOCATION, CWD
 from pathlib import Path
 
 
@@ -21,7 +21,7 @@ def meson_build(project_name):
             logger.error(
                 f"{project_name} failed to SETUP {WRAPDB_LOCATION/'build'/project_name}"
             )
-    compile_command = f"meson compile -C build/{project_name}"
+    compile_command = f"meson compile -C build/{project_name}".split(" ")
     meson_compile = subprocess.run(compile_command, cwd=WRAPDB_LOCATION)
     if DEBUG_MODE:
         print(meson_compile.stdout)
@@ -40,7 +40,10 @@ def find_executables(project_name):
             # what is the value of variable `root`
             file_path = Path(root) / file
             if os.access(file_path, os.X_OK):
-                executable_list.append(file_path)
+                full_path = CWD/file_path
+                file_output = subprocess.run(["file", full_path], capture_output=True)
+                if b"ELF" in file_output.stdout:
+                    executable_list.append(full_path)
     return executable_list
 
 

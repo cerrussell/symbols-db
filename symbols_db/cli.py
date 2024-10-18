@@ -21,6 +21,10 @@ from symbols_db.handlers.sqlite_handler import (
     add_binary_export,
 )
 
+# TODO:remove 
+from symbols_db.handlers.sqlite_handler import clear_sqlite_database, create_database
+clear_sqlite_database()
+create_database()
 
 def arguments_parser():
     parser = argparse.ArgumentParser(
@@ -65,11 +69,8 @@ def build_run_blint_projects(project_list):
         meson_build(project_name)
         execs = find_executables(project_name)
         for files in execs:
-
-            strip_executables(files, pid)
-            bid = add_binary(
-                files,
-            )
+            strip_executables(files)
+            bid = add_binary(files, pid)
             if_list = get_blint_internal_functions_exe(files)
             for func in if_list:
                 add_binary_export(func, bid)
