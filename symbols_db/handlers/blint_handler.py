@@ -12,6 +12,7 @@ from symbols_db.utils.rust import (
     get_path_names_from_index_names,
 )
 from symbols_db import DEBUG_MODE, DELIMETER_BOM, WRAPDB_LOCATION
+from symbols_db import logger
 
 
 class BlintBom:

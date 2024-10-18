@@ -1,5 +1,5 @@
 from symbols_db.utils import HOME_DIRECTORY
-
+from symbols_db import logger
 
 import os
 
