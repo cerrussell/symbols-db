@@ -21,10 +21,12 @@ from symbols_db.handlers.sqlite_handler import (
     add_binary_export,
 )
 
-# TODO:remove 
+# TODO:remove
 from symbols_db.handlers.sqlite_handler import clear_sqlite_database, create_database
+
 clear_sqlite_database()
 create_database()
+
 
 def arguments_parser():
     parser = argparse.ArgumentParser(

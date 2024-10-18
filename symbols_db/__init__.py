@@ -12,4 +12,4 @@ DEBUG_MODE = False
 WRAPDB_LOCATION = Path("./temp/wrapdb")
 BOM_LOCATION = Path("./temp/boms")
 BLINTDB_LOCATION = "blint.db"
-CWD=Path(os.getcwd())
+CWD = Path(os.getcwd())
