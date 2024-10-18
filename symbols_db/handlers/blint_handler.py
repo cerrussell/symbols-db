@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import subprocess
 
-from symbols_db import BOM_LOCATION
+from symbols_db import BOM_LOCATION, CWD
 from symbols_db.handlers.sqlite_handler import store_sbom_in_sqlite
 from symbols_db.utils.json import get_properties_internal
 from symbols_db.utils.rust import (
@@ -56,9 +56,9 @@ class Components:
         self.properties = properties
 
 
-def run_blint_on_file(project_name, file_path):
+def run_blint_on_file(file_path):
     # TODO: assume blint installed
-    blint_command = f"blint sbom --deep {file_path} -o {file_path}.json".split(" ")
+    blint_command = f'blint sbom --deep -o {file_path}.json -i {file_path}'.split(" ")
     blint_output = subprocess.run(blint_command, cwd=WRAPDB_LOCATION)
 
     if DEBUG_MODE:
@@ -75,9 +75,11 @@ def get_blint_file(project_name):
     return blint_str
 
 
-def get_blint_internal_functions_exe(project_name, file_path):
+def get_blint_internal_functions_exe(file_path):
+    # here the file path is relative, we make it complete
+
     run_blint_on_file(file_path)
-    blint_file = Path(file_path) / ".json"
+    blint_file = Path(str(file_path) + ".json")
 
     if_string = get_properties_internal("internal:functions", blint_file)
     return if_string.split(DELIMETER_BOM)

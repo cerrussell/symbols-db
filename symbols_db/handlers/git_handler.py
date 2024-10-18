@@ -34,7 +34,7 @@ def git_checkout_wrapdb_commit():
 def get_wrapdb_projects():
     git_clone_wrapdb()
     git_checkout_wrapdb_commit()
-    subproject_filenames = os.listdir(WRAPDB_LOCATION)
+    subproject_filenames = os.listdir(WRAPDB_LOCATION/"subprojects")
     projects_list = []
     for file in subproject_filenames:
         project_path = Path(file)
