@@ -51,3 +51,15 @@ def find_executables(project_name):
 def strip_executables(file_path):
     strip_command = f"strip --strip-all {file_path}".split(" ")
     subprocess.run(strip_command, cwd=WRAPDB_LOCATION)
+
+
+def delete_project_files(project_name):
+    """
+    This deletes project files in build/<project_name> directory and
+    <WRAPDB_LOCATION>/subprojects/<project_name>-<project_version folder.
+    
+    we get <project_version> from `build/<project_name>/subprojects` folder which
+    <project_name>
+    """
+
+
