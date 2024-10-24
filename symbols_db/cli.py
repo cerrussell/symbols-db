@@ -69,19 +69,26 @@ def arguments_parser():
     return parser.parse_args()
 
 
-def build_run_blint_projects(project_list):
+def build_and_database(project_name):
+    pid = add_projects( project_name)
+    meson_build(project_name)
+    execs = find_executables(project_name)
+    for files in execs:
+        strip_executables(files)
+        bid = add_binary(files, pid)
+        if_list = get_blint_internal_functions_exe(files)
+        for func in if_list:
+            add_binary_export(func, bid)
+    
+    # delete project after done processing
+
+    return execs
+
+def bduild_run_blint_projects(project_list):
     # returns executables list so we can run blint on them
     executables_list = []
     for project_name in project_list:
-        pid = add_projects(project_name)
-        meson_build(project_name)
-        execs = find_executables(project_name)
-        for files in execs:
-            strip_executables(files)
-            bid = add_binary(files, pid)
-            if_list = get_blint_internal_functions_exe(files)
-            for func in if_list:
-                add_binary_export(func, bid)
+        execs = build_and_database(project_name)
 
         executables_list.extend(execs)
     return executables_list
@@ -90,15 +97,7 @@ def build_run_blint(project_name):
     #
     logger.debug(f'Running {project_name}')
     try:
-        pid = add_projects( project_name)
-        meson_build(project_name)
-        execs = find_executables(project_name)
-        for files in execs:
-            strip_executables(files)
-            bid = add_binary(files, pid)
-            if_list = get_blint_internal_functions_exe(files)
-            for func in if_list:
-                add_binary_export(func, bid)
+        execs = build_and_database(project_name)
     except Exception as e:
         logger.info(f"error encountered with {project_name}")
         logger.error(e)
