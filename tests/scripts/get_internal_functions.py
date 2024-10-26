@@ -40,7 +40,7 @@ def get_bnames_ename(i_func):
     return bin_names
 
 def main():
-
+    # this function takes blint deep sbom for working
     args = vars(arguments_parser())
     
     print(args)
