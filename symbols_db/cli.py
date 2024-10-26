@@ -27,7 +27,7 @@ from symbols_db.handlers.sqlite_handler import (
 from symbols_db.handlers.sqlite_handler import clear_sqlite_database, create_database
 from symbols_db import BLINTDB_LOCATION, logger
 
-clear_sqlite_database()
+# clear_sqlite_database()
 create_database()
 
 # Logging
@@ -36,7 +36,7 @@ create_database()
 
 def arguments_parser():
     parser = argparse.ArgumentParser(
-        prog="symbols_db", description="Stores Symbols for rust binaries"
+        prog="symbols_db", description="Stores Symbols for binaries"
     )
     parser.add_argument(
         "-c",
@@ -121,7 +121,7 @@ def meson_add_blint_bom_process(blintsbom):
 def main():
 
     args = vars(arguments_parser())
-    print(args["bom"])
+    
     if args["add_cdxgen_db"]:
         # Has been replaced
         pass

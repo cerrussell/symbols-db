@@ -15,48 +15,6 @@ from symbols_db import DEBUG_MODE, DELIMETER_BOM, WRAPDB_LOCATION
 from symbols_db import logger
 
 
-class BlintBom:
-
-    def __init__(
-        self,
-        bomFormat=None,
-        specVersion=None,
-        serialNumber=None,
-        metadata=None,
-        components=None,
-        dependencies=None,
-        bom_string=None,
-    ):
-        # self.bomFormat = bomFormat
-        # self.specVersion = specVersion
-        # self.serialNumber = serialNumber
-        # self.metadata = metadata
-        # self.components = components
-        # self.dependencies = dependencies
-        # TODO: remove bom_string and properly hanlde serialization and de
-        self.bom_string = None
-
-
-class Components:
-    def __init__(
-        self,
-        comp_type=None,
-        bom_ref=None,
-        name=None,
-        scope=None,
-        purl=None,
-        evidence=None,
-        properties=None,
-    ):
-        self.comp_type = comp_type
-        self.bom_ref = bom_ref
-        self.name = name
-        self.scope = scope
-        self.purl = purl
-        self.evidence = evidence
-        self.properties = properties
-
-
 def run_blint_on_file(file_path):
     # TODO: assume blint installed
     blint_command = f"blint sbom --deep -o {file_path}.json -i {file_path}".split(" ")
@@ -113,3 +71,46 @@ def blint_on_crates_from_purl(purllist):
                 data = get_sbom_json(os.path.join(package_location, purl))
                 store_sbom_in_sqlite(package, data)
                 break
+
+
+class BlintBom:
+
+    def __init__(
+        self,
+        bomFormat=None,
+        specVersion=None,
+        serialNumber=None,
+        metadata=None,
+        components=None,
+        dependencies=None,
+        bom_string=None,
+    ):
+        # self.bomFormat = bomFormat
+        # self.specVersion = specVersion
+        # self.serialNumber = serialNumber
+        # self.metadata = metadata
+        # self.components = components
+        # self.dependencies = dependencies
+        # TODO: remove bom_string and properly hanlde serialization and de
+        self.bom_string = None
+
+
+class Components:
+    def __init__(
+        self,
+        comp_type=None,
+        bom_ref=None,
+        name=None,
+        scope=None,
+        purl=None,
+        evidence=None,
+        properties=None,
+    ):
+        self.comp_type = comp_type
+        self.bom_ref = bom_ref
+        self.name = name
+        self.scope = scope
+        self.purl = purl
+        self.evidence = evidence
+        self.properties = properties
+
