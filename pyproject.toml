@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
-blint = "^2.2.3"
+blint = {path = "../blint/", develop = true}
 
 [tool.poetry.scripts]
 symbols-db = 'symbols_db.cli:main'

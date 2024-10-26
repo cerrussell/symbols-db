@@ -19,6 +19,17 @@
             "program": "${workspaceFolder}/symbols_db/cli.py",
             "console": "integratedTerminal",
             "args": "-Z"
+        },
+        {
+            "name": "test nodejs sbom deep",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/scripts/get_internal_functions.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-b",
+                "/home/great/project/trials/nodebinary/formatted.json"
+            ]
         }
     ]
 }
