@@ -4,10 +4,29 @@ import subprocess
 from symbols_db import logger, WRAPDB_LOCATION, CWD
 from pathlib import Path
 from symbols_db import logger
+from symbols_db.handlers.language_handlers import BaseHandler
 
 
 # TODO: debug
 DEBUG_MODE = True
+
+
+class MesonHandler(BaseHandler):
+
+    def __init__():
+        pass
+
+    def build(project_name):
+        pass
+
+    def find_executables(project_name):
+        pass
+
+    def delete_project_files(project_name):
+        pass
+
+    def get_project_list():
+        pass
 
 
 def meson_build(project_name):
@@ -33,7 +52,7 @@ def meson_build(project_name):
             )
 
 
-def find_executables(project_name):
+def find_meson_executables(project_name):
     full_project_dir = WRAPDB_LOCATION / "build" / project_name / "subprojects"
     executable_list = []
     for root, dir, files in os.walk(full_project_dir):
@@ -48,18 +67,16 @@ def find_executables(project_name):
     return executable_list
 
 
-def strip_executables(file_path):
+def strip_executables(file_path, loc=WRAPDB_LOCATION):
     strip_command = f"strip --strip-all {file_path}".split(" ")
-    subprocess.run(strip_command, cwd=WRAPDB_LOCATION)
+    subprocess.run(strip_command, cwd=loc)
 
 
 def delete_project_files(project_name):
     """
     This deletes project files in build/<project_name> directory and
     <WRAPDB_LOCATION>/subprojects/<project_name>-<project_version folder.
-    
+
     we get <project_version> from `build/<project_name>/subprojects` folder which
     <project_name>
     """
-
-

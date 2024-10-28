@@ -113,4 +113,3 @@ class Components:
         self.purl = purl
         self.evidence = evidence
         self.properties = properties
-

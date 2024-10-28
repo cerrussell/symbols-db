@@ -13,12 +13,12 @@
             "args": "-c tests/bom.json"
         },
         {
-            "name": "autogenerate",
+            "name": "Z1autogenerate",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/symbols_db/cli.py",
             "console": "integratedTerminal",
-            "args": "-Z"
+            "args": "-Z1"
         },
         {
             "name": "test nodejs sbom deep",
@@ -30,6 +30,14 @@
                 "-b",
                 "/home/great/project/trials/nodebinary/formatted.json"
             ]
+        },
+        {
+            "name": "Z2autogenerate",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/symbols_db/cli.py",
+            "console": "integratedTerminal",
+            "args": "-Z2"
         }
     ]
 }

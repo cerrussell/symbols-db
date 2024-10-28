@@ -7,7 +7,7 @@ with open("all_ifunc_object.json", "r") as f:
 project_list = []
 
 for key in all_func:
-    if len( data := all_func[key] ):
+    if len(data := all_func[key]):
         # print(data)
         for bname in data:
             pname = get_pname_bname(bname)

@@ -1,5 +1,6 @@
 from symbols_db import logger
 
+
 class Projects:
 
     def __init__(

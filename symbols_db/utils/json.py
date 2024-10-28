@@ -1,6 +1,7 @@
 import json
 from symbols_db import logger
 
+
 def get_key_in_json_list(key_search, key_name, property_list):
     return_key = None
     for i in property_list:
