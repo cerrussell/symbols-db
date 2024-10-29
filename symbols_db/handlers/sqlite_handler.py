@@ -214,7 +214,3 @@ def add_binary_export(infunc, bid):
                 "INSERT INTO BinariesExports (bid, eid) VALUES (?, ?)", (bid, eid)
             )
         connection.commit()
-
-
-# create the sqlite tables
-# create_database()

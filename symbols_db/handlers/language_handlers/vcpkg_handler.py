@@ -80,7 +80,6 @@ def archive_explorer(directory):
 
 
 def find_vcpkg_executables(project_name):
-    # TODO: linux only
     project_path = f"{project_name}_x64-linux"
     target_directory = VCPKG_LOCATION / "packages" / project_path
     return exec_explorer(target_directory)

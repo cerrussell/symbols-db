@@ -1,7 +1,11 @@
 import subprocess
+import traceback
 
 from symbols_db import DEBUG_MODE, VCPKG_HASH, VCPKG_LOCATION, VCPKG_URL, logger
+from symbols_db.handlers.blint_handler import get_blint_internal_functions_exe
 from symbols_db.handlers.git_handler import git_checkout_commit, git_clone
+from symbols_db.handlers.language_handlers.vcpkg_handler import find_vcpkg_executables, vcpkg_build
+from symbols_db.handlers.sqlite_handler import add_binary, add_binary_export, add_projects
 
 
 def git_clone_vcpkg():
@@ -55,3 +59,27 @@ def exec_explorer(directory):
                 )
                 return []
     return executables
+
+
+def add_project_vcpkg_db(project_name):
+    pid = add_projects(project_name)
+    vcpkg_build(project_name)
+    execs = find_vcpkg_executables(project_name)
+    for files in execs:
+        bid = add_binary(files, pid, split_word="packages/")
+        if_list = get_blint_internal_functions_exe(files)
+        for func in if_list:
+            add_binary_export(func, bid)
+    return execs
+
+
+def mt_vcpkg_blint_db_build(project_name):
+    logger.debug(f"Running {project_name}")
+    try:
+        execs = add_project_vcpkg_db(project_name)
+    except Exception as e:
+        logger.info(f"error encountered with {project_name}")
+        logger.error(e)
+        logger.error(traceback.format_exc())
+        return [False]
+    return execs
