@@ -1,6 +1,6 @@
 import subprocess
-from symbols_db import DEBUG_MODE
 
+from symbols_db import DEBUG_MODE
 
 # def git_clone_wrapdb():
 #     command = (

@@ -1,11 +1,10 @@
 import datetime
 import os
 import sqlite3
-from symbols_db import DEBUG_MODE, BLINTDB_LOCATION
-from pathlib import PurePath
-from symbols_db import logger
 from contextlib import closing
-from symbols_db import SQLITE_TIMEOUT
+from pathlib import PurePath
+
+from symbols_db import BLINTDB_LOCATION, DEBUG_MODE, SQLITE_TIMEOUT, logger
 
 
 def get_cursor():

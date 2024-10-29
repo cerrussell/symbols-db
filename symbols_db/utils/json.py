@@ -1,4 +1,5 @@
 import json
+
 from symbols_db import logger
 
 

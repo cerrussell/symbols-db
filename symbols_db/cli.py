@@ -1,36 +1,27 @@
 import argparse
 import concurrent
 import concurrent.futures
-from time import sleep
 import sqlite3
 import traceback
+from time import sleep
 
+from symbols_db import BLINTDB_LOCATION, VCPKG_LOCATION, logger
 from symbols_db.handlers.blint_handler import (
-    blint_on_crates_from_purl,
-    get_blint_internal_functions_exe,
-)
+    blint_on_crates_from_purl, get_blint_internal_functions_exe)
 from symbols_db.handlers.cyclonedx_handler import get_purl_from_bom
-from symbols_db.handlers.language_handlers.wrapdb_handler import get_wrapdb_projects
-from symbols_db.handlers.language_handlers.cargo_handler import build_crates_from_purl
-from symbols_db.handlers.language_handlers.vcpkg_handler import (
-    get_vcpkg_projects,
-    vcpkg_build,
-    find_vcpkg_executables,
-)
+from symbols_db.handlers.language_handlers.cargo_handler import \
+    build_crates_from_purl
 from symbols_db.handlers.language_handlers.meson_handler import (
-    meson_build,
-    find_meson_executables,
-    strip_executables,
-)
-from symbols_db.handlers.sqlite_handler import (
-    add_projects,
-    add_binary,
-    add_binary_export,
-)
-
+    find_meson_executables, meson_build, strip_executables)
+from symbols_db.handlers.language_handlers.vcpkg_handler import (
+    find_vcpkg_executables, get_vcpkg_projects, vcpkg_build)
+from symbols_db.handlers.language_handlers.wrapdb_handler import \
+    get_wrapdb_projects
 # TODO: clean up reset database command
-from symbols_db.handlers.sqlite_handler import clear_sqlite_database, create_database
-from symbols_db import BLINTDB_LOCATION, logger, VCPKG_LOCATION
+from symbols_db.handlers.sqlite_handler import (add_binary, add_binary_export,
+                                                add_projects,
+                                                clear_sqlite_database,
+                                                create_database)
 
 clear_sqlite_database()
 create_database()

@@ -1,7 +1,7 @@
-from symbols_db.utils import HOME_DIRECTORY
-from symbols_db import logger
-
 import os
+
+from symbols_db import logger
+from symbols_db.utils import HOME_DIRECTORY
 
 
 def from_purl_to_rust_srcname(purl):

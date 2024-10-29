@@ -1,4 +1,4 @@
-from symbols_db import DEBUG_MODE, logger, WRAPDB_LOCATION
+from symbols_db import DEBUG_MODE, WRAPDB_LOCATION, logger
 
 
 def subprocess_run_debug(setup_run, project_name):

@@ -1,4 +1,5 @@
 import json
+
 from tests.scripts.match_internal_functions_withdb import get_pname_bname
 
 with open("all_ifunc_object.json", "r") as f:

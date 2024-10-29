@@ -1,7 +1,7 @@
-from pathlib import Path
 import os
-from symbols_db import DEBUG_MODE, WRAPDB_LOCATION
-from symbols_db import BOM_LOCATION
+from pathlib import Path
+
+from symbols_db import BOM_LOCATION, DEBUG_MODE, WRAPDB_LOCATION
 
 HOME_DIRECTORY = Path.home()
 
