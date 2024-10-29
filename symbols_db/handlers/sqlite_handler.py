@@ -4,7 +4,7 @@ import sqlite3
 from contextlib import closing
 from pathlib import PurePath
 
-from symbols_db import BLINTDB_LOCATION, DEBUG_MODE, SQLITE_TIMEOUT, logger
+from symbols_db import BLINTDB_LOCATION, DEBUG_MODE, SQLITE_TIMEOUT
 
 
 def get_cursor():
