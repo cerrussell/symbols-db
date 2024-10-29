@@ -1,6 +1,7 @@
 import json
 from symbols_db import logger
 
+
 def get_key_in_json_list(key_search, key_name, property_list):
     return_key = None
     for i in property_list:
@@ -9,7 +10,16 @@ def get_key_in_json_list(key_search, key_name, property_list):
     if return_key:
         return return_key
     else:
-        raise Exception("Spelling mistake probably")
+        raise KeyError("Spelling mistake probably")
+
+
+def property_exists_get_property(component, property_name):
+    if properties := component.get("properties", {}):
+        req_property = get_key_in_json_list(property_name, "name", properties)
+        req_property = req_property["value"]
+        return req_property
+    else:
+        return []
 
 
 def get_properties_internal(property_name, file_name):
@@ -17,7 +27,14 @@ def get_properties_internal(property_name, file_name):
     with open(file_name, "r") as f:
         blint_sbom = json.load(f)
 
-    properties = blint_sbom["metadata"]["component"]["properties"]
-    req_property = get_key_in_json_list(property_name, "name", properties)
+    component = blint_sbom["metadata"]["component"]
 
-    return req_property["value"]
+    if not (req_property := property_exists_get_property(component, property_name)):
+        req_property_list = []
+        if components := component.get("components", {}):
+            req_property_list.extend(
+                property_exists_get_property(comp, property_name) for comp in components
+            )
+        req_property = "~~".join(req_property_list)
+
+    return req_property

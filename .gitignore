@@ -1,3 +1,11 @@
+# temp scripts
+temp/
+build/
+del.py
+blint_working.db
+bom-syn.json
+all_ifunc_object.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
