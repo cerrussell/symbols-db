@@ -3,10 +3,12 @@ import subprocess
 
 from symbols_db import VCPKG_LOCATION
 from symbols_db.handlers.language_handlers import BaseHandler
-from symbols_db.projects_compiler.vcpkg import (exec_explorer,
-                                                git_checkout_vcpkg_commit,
-                                                git_clone_vcpkg,
-                                                run_vcpkg_install_command)
+from symbols_db.projects_compiler.vcpkg import (
+    exec_explorer,
+    git_checkout_vcpkg_commit,
+    git_clone_vcpkg,
+    run_vcpkg_install_command,
+)
 from symbols_db.utils.utils import subprocess_run_debug
 
 

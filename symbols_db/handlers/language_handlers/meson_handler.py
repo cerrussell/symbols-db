@@ -4,9 +4,11 @@ from pathlib import Path
 
 from symbols_db import CWD, WRAPDB_LOCATION, logger
 from symbols_db.handlers.language_handlers import BaseHandler
-from symbols_db.projects_compiler.meson import (ensure_meson_installed,
-                                                git_checkout_wrapdb_commit,
-                                                git_clone_wrapdb)
+from symbols_db.projects_compiler.meson import (
+    ensure_meson_installed,
+    git_checkout_wrapdb_commit,
+    git_clone_wrapdb,
+)
 from symbols_db.utils.utils import subprocess_run_debug
 
 # TODO: debug

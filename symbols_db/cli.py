@@ -7,21 +7,31 @@ from time import sleep
 
 from symbols_db import BLINTDB_LOCATION, VCPKG_LOCATION, logger
 from symbols_db.handlers.blint_handler import (
-    blint_on_crates_from_purl, get_blint_internal_functions_exe)
+    blint_on_crates_from_purl,
+    get_blint_internal_functions_exe,
+)
 from symbols_db.handlers.cyclonedx_handler import get_purl_from_bom
-from symbols_db.handlers.language_handlers.cargo_handler import \
-    build_crates_from_purl
+from symbols_db.handlers.language_handlers.cargo_handler import build_crates_from_purl
 from symbols_db.handlers.language_handlers.meson_handler import (
-    find_meson_executables, meson_build, strip_executables)
+    find_meson_executables,
+    meson_build,
+    strip_executables,
+)
 from symbols_db.handlers.language_handlers.vcpkg_handler import (
-    find_vcpkg_executables, get_vcpkg_projects, vcpkg_build)
-from symbols_db.handlers.language_handlers.wrapdb_handler import \
-    get_wrapdb_projects
+    find_vcpkg_executables,
+    get_vcpkg_projects,
+    vcpkg_build,
+)
+from symbols_db.handlers.language_handlers.wrapdb_handler import get_wrapdb_projects
+
 # TODO: clean up reset database command
-from symbols_db.handlers.sqlite_handler import (add_binary, add_binary_export,
-                                                add_projects,
-                                                clear_sqlite_database,
-                                                create_database)
+from symbols_db.handlers.sqlite_handler import (
+    add_binary,
+    add_binary_export,
+    add_projects,
+    clear_sqlite_database,
+    create_database,
+)
 
 clear_sqlite_database()
 create_database()
@@ -34,8 +44,8 @@ def arguments_parser():
     parser.add_argument(
         "-c",
         "--cdxgen-bom",
-        dest="bom",
-        help="Path to the CDXGEN bom file",
+        dest="cdxgen_bom",
+        help="Path to the CDXGEN bom file (NOT IMPLEMENTED)",
     )
     parser.add_argument(
         "-cs",
@@ -48,7 +58,7 @@ def arguments_parser():
         "-b",
         "--blint-sbom",
         dest="blintsbom",
-        help="Path to the Blint SBOM for a binary",
+        help="Path to the Blint SBOM for a binary (NOT IMPLEMENTED)",
     )
     parser.add_argument(
         "-bs",
@@ -57,8 +67,20 @@ def arguments_parser():
         action="store_true",
         help="This flag allows to add blint SBOM to Database",
     )
-    parser.add_argument("-Z1", "--meson-blintdb", dest="meson", action="store_true")
-    parser.add_argument("-Z2", "--vcpkg-blintdb", dest="vcpkg", action="store_true")
+    parser.add_argument(
+        "-Z1",
+        "--meson-blintdb",
+        dest="meson",
+        action="store_true",
+        help="This flag starts the automatic blintdb build using wrapdb packages",
+    )
+    parser.add_argument(
+        "-Z2",
+        "--vcpkg-blintdb",
+        dest="vcpkg",
+        action="store_true",
+        help="This flag starts the automatic blintdb build using vcpkg packages",
+    )
 
     return parser.parse_args()
 
@@ -160,22 +182,11 @@ def main():
 
     args = vars(arguments_parser())
 
-    if args["add_cdxgen_db"]:
-        # Has been replaced
-        pass
-        # purllist = get_purl_from_bom(args["bom"])
-        # build_crates_from_purl(purllist)
-        # blint_on_crates_from_purl(purllist)
-        # # download_crate_from_purl(purllist)
-
     if args["meson"]:
         meson_add_blint_bom_process(args["blintsbom"])
 
     if args["vcpkg"]:
         vcpkg_add_blint_bom_process(args["blintsbom"])
-
-    if args["add_blint_db"]:
-        pass
 
 
 if __name__ == "__main__":
