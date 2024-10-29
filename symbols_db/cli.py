@@ -147,7 +147,7 @@ def vcpkg_add_blint_bom_process(blintsbom):
     projects_list = get_vcpkg_projects()
 
     # build projects multiprocess
-    with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
         for project_name, executables in zip(projects_list, executor.map(mt_vcpkg_blint_db_build, projects_list)):
             print(f"Ran complete for {project_name} and we found {len(executables)}")
 

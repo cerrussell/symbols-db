@@ -5,6 +5,7 @@ from symbols_db import logger, WRAPDB_LOCATION, CWD
 from pathlib import Path
 from symbols_db import logger
 from symbols_db.handlers.language_handlers import BaseHandler
+from symbols_db.utils.utils import subprocess_run_debug
 
 
 # TODO: debug
@@ -13,19 +14,19 @@ DEBUG_MODE = True
 
 class MesonHandler(BaseHandler):
 
-    def __init__():
+    def __init__(self):
         pass
 
-    def build(project_name):
+    def build(self, project_name):
         pass
 
-    def find_executables(project_name):
+    def find_executables(self, project_name):
         pass
 
-    def delete_project_files(project_name):
+    def delete_project_files(self, project_name):
         pass
 
-    def get_project_list():
+    def get_project_list(self):
         pass
 
 
@@ -34,22 +35,10 @@ def meson_build(project_name):
         " "
     )
     meson_setup = subprocess.run(setup_command, cwd=WRAPDB_LOCATION)
-    if DEBUG_MODE:
-        print(meson_setup.stdout)
-        print(meson_setup.stderr)
-        if meson_setup.stderr:
-            logger.error(
-                f"{project_name} failed to SETUP {WRAPDB_LOCATION/'build'/project_name}"
-            )
+    subprocess_run_debug(meson_setup, project_name)
     compile_command = f"meson compile -C build/{project_name}".split(" ")
     meson_compile = subprocess.run(compile_command, cwd=WRAPDB_LOCATION)
-    if DEBUG_MODE:
-        print(meson_compile.stdout)
-        print(meson_compile.stderr)
-        if meson_compile.stderr:
-            logger.error(
-                f"{project_name} failed to COMPILE {WRAPDB_LOCATION/'build'/project_name}"
-            )
+    subprocess_run_debug(meson_compile, project_name)
 
 
 def find_meson_executables(project_name):

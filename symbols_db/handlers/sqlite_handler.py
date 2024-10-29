@@ -5,8 +5,8 @@ from symbols_db import DEBUG_MODE, BLINTDB_LOCATION
 from pathlib import PurePath
 from symbols_db import logger
 from contextlib import closing
+from symbols_db import SQLITE_TIMEOUT
 
-SQLITE_TIMEOUT = 20.0
 
 
 def get_cursor():

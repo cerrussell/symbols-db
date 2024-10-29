@@ -38,7 +38,7 @@ def get_blint_internal_functions_exe(file_path):
     # here the file path is relative, we make it complete
 
     run_blint_on_file(file_path)
-    blint_file = Path(str(file_path) + ".json")
+    blint_file = Path(f"{str(file_path)}.json")
 
     if_string = get_properties_internal("internal:functions", blint_file)
     return if_string.split(DELIMETER_BOM)
@@ -52,8 +52,7 @@ def run_blint(build_dir, package_name):
 
 def get_sbom_json(build_dir):
     with open(os.path.join(build_dir, "sbom.json")) as sbom_file:
-        data = sbom_file.read()
-        return data
+        return sbom_file.read()
 
 
 def blint_on_crates_from_purl(purllist):

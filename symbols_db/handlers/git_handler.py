@@ -1,8 +1,5 @@
 import subprocess
-
-
-# TODO: debug mode
-DEBUG_MODE = True
+from symbols_db import DEBUG_MODE
 
 
 # def git_clone_wrapdb():
@@ -36,7 +33,7 @@ def git_clone(git_url, loc):
 
 
 def git_checkout_commit(loc, commit_hash):
-    command = f"git -C {loc} {commit_hash}".split(" ")
+    command = f"git -C {loc} checkout {commit_hash}".split(" ")
     proc_output = subprocess.run(command, capture_output=True)
     if DEBUG_MODE:
         print(proc_output.stdout)
