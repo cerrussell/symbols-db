@@ -2,7 +2,7 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-BLINTDB_LOCATION = Path.cwd()/ "build" / "blint_working.db"
+BLINTDB_LOCATION = Path.cwd() / "build" / "blint_working.db"
 
 
 def get_export_id(export_name):

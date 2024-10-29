@@ -12,7 +12,11 @@ from symbols_db.handlers.blint_handler import (
 from symbols_db.handlers.cyclonedx_handler import get_purl_from_bom
 from symbols_db.handlers.language_handlers.wrapdb_handler import get_wrapdb_projects
 from symbols_db.handlers.language_handlers.cargo_handler import build_crates_from_purl
-from symbols_db.handlers.language_handlers.vcpkg_handler import get_vcpkg_projects, vcpkg_build, find_vcpkg_executables
+from symbols_db.handlers.language_handlers.vcpkg_handler import (
+    get_vcpkg_projects,
+    vcpkg_build,
+    find_vcpkg_executables,
+)
 from symbols_db.handlers.language_handlers.meson_handler import (
     meson_build,
     find_meson_executables,
@@ -30,7 +34,6 @@ from symbols_db import BLINTDB_LOCATION, logger, VCPKG_LOCATION
 
 clear_sqlite_database()
 create_database()
-
 
 
 def arguments_parser():
@@ -70,7 +73,7 @@ def arguments_parser():
 
 
 def add_project_meson_db(project_name):
-    pid = add_projects( project_name)
+    pid = add_projects(project_name)
     meson_build(project_name)
     execs = find_meson_executables(project_name)
     for files in execs:
@@ -79,10 +82,11 @@ def add_project_meson_db(project_name):
         if_list = get_blint_internal_functions_exe(files)
         for func in if_list:
             add_binary_export(func, bid)
-    
+
     # delete project after done processing
 
     return execs
+
 
 def st_meson_blint_db_build(project_list):
     # returns executables list so we can run blint on them
@@ -93,8 +97,9 @@ def st_meson_blint_db_build(project_list):
         executables_list.extend(execs)
     return executables_list
 
+
 def mt_meson_blint_db_build(project_name):
-    logger.debug(f'Running {project_name}')
+    logger.debug(f"Running {project_name}")
     try:
         execs = add_project_meson_db(project_name)
     except Exception as e:
@@ -103,6 +108,7 @@ def mt_meson_blint_db_build(project_name):
         logger.error(traceback.format_exc())
         return [False]
     return execs
+
 
 def meson_add_blint_bom_process(blintsbom):
     # get the list of project to be build
@@ -113,8 +119,11 @@ def meson_add_blint_bom_process(blintsbom):
 
     # build projects multiprocess
     with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
-        for project_name, executables in zip(projects_list, executor.map(mt_meson_blint_db_build, projects_list)):
+        for project_name, executables in zip(
+            projects_list, executor.map(mt_meson_blint_db_build, projects_list)
+        ):
             print(f"Ran complete for {project_name} and we found {len(executables)}")
+
 
 def add_project_vcpkg_db(project_name):
     pid = add_projects(project_name)
@@ -126,13 +135,14 @@ def add_project_vcpkg_db(project_name):
         if_list = get_blint_internal_functions_exe(files)
         for func in if_list:
             add_binary_export(func, bid)
-    
+
     # delete project after done processing
 
     return execs
 
+
 def mt_vcpkg_blint_db_build(project_name):
-    logger.debug(f'Running {project_name}')
+    logger.debug(f"Running {project_name}")
     try:
         execs = add_project_vcpkg_db(project_name)
     except Exception as e:
@@ -142,19 +152,23 @@ def mt_vcpkg_blint_db_build(project_name):
         return [False]
     return execs
 
+
 def vcpkg_add_blint_bom_process(blintsbom):
     # get the list of project to be build
     projects_list = get_vcpkg_projects()
 
     # build projects multiprocess
     with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
-        for project_name, executables in zip(projects_list, executor.map(mt_vcpkg_blint_db_build, projects_list)):
+        for project_name, executables in zip(
+            projects_list, executor.map(mt_vcpkg_blint_db_build, projects_list)
+        ):
             print(f"Ran complete for {project_name} and we found {len(executables)}")
+
 
 def main():
 
     args = vars(arguments_parser())
-    
+
     if args["add_cdxgen_db"]:
         # Has been replaced
         pass
@@ -165,7 +179,7 @@ def main():
 
     if args["meson"]:
         meson_add_blint_bom_process(args["blintsbom"])
-    
+
     if args["vcpkg"]:
         vcpkg_add_blint_bom_process(args["blintsbom"])
 

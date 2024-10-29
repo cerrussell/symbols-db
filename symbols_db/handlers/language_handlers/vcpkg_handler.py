@@ -58,68 +58,69 @@ def get_vcpkg_projects():
     ports_path = VCPKG_LOCATION / "ports"
     return os.listdir(ports_path)
 
+
 def vcpkg_build(project_name):
     inst_cmd = f"./vcpkg install {project_name}".split(" ")
     inst_run = subprocess.run(inst_cmd, cwd=VCPKG_LOCATION, capture_output=True)
     subprocess_run_debug(inst_run, project_name)
 
+
 def exec_explorer(directory):
-  """
-  Walks through a directory and identifies executable files using the `file` command.
+    """
+    Walks through a directory and identifies executable files using the `file` command.
 
-  Args:
-    directory: The directory to search.
+    Args:
+      directory: The directory to search.
 
-  Returns:
-    A list of executable file paths.
-  """
-  executables = []
-  for root, _, files in os.walk(directory):
-    for file in files:
-      file_path = os.path.join(root, file)
-      try:
-        result = subprocess.run(['file', file_path], capture_output=True)
-        if b"ELF" in result.stdout:
-            executables.append(file_path)
-        if b"archive" in result.stdout:
-            executables.append(file_path)
-      except FileNotFoundError:
-        print(
-          f"Error: 'file' command not found. Make sure it's installed and in your PATH."
-          )
-        return []
-  return executables
+    Returns:
+      A list of executable file paths.
+    """
+    executables = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            try:
+                result = subprocess.run(["file", file_path], capture_output=True)
+                if b"ELF" in result.stdout:
+                    executables.append(file_path)
+                if b"archive" in result.stdout:
+                    executables.append(file_path)
+            except FileNotFoundError:
+                print(
+                    "Error: 'file' command not found. Make sure it's installed and in your PATH."
+                )
+                return []
+    return executables
+
 
 def archive_explorer(directory):
-  """
-  Walks through a directory and identifies executable files using the `file` command.
+    """
+    Walks through a directory and identifies executable files using the `file` command.
 
-  Args:
-    directory: The directory to search.
+    Args:
+      directory: The directory to search.
 
-  Returns:
-    A list of executable file paths.
-  """
-  executables = []
-  for root, _, files in os.walk(directory):
-    for file in files:
-      file_path = os.path.join(root, file)
-      try:
-        result = subprocess.run(['file', file_path], capture_output=True)
-        if b"archive" in result.stdout:
-            executables.append(file_path)
-      except FileNotFoundError:
-        print(
-          f"Error: 'file' command not found. Make sure it's installed and in your PATH."
-          )
-        return []
-  return executables
+    Returns:
+      A list of executable file paths.
+    """
+    executables = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            try:
+                result = subprocess.run(["file", file_path], capture_output=True)
+                if b"archive" in result.stdout:
+                    executables.append(file_path)
+            except FileNotFoundError:
+                print(
+                    "Error: 'file' command not found. Make sure it's installed and in your PATH."
+                )
+                return []
+    return executables
+
 
 def find_vcpkg_executables(project_name):
     # TODO: linux only
-    project_path = project_name + "_x64-linux"
+    project_path = f"{project_name}_x64-linux"
     target_directory = VCPKG_LOCATION / "packages" / project_path
-    execs = exec_explorer(target_directory)
-
-    return execs
-
+    return exec_explorer(target_directory)

@@ -1,5 +1,6 @@
 from symbols_db import DEBUG_MODE, logger, WRAPDB_LOCATION
 
+
 def subprocess_run_debug(setup_run, project_name):
     if DEBUG_MODE:
         print(setup_run.stdout)
@@ -8,6 +9,4 @@ def subprocess_run_debug(setup_run, project_name):
             logger.error(
                 f"{project_name} failed to SETUP {WRAPDB_LOCATION/'build'/project_name}"
             )
-            logger.error(
-                f"{project_name}: {setup_run.stdout.decode("ascii")}"
-            )
+            logger.error(f"{project_name}: {setup_run.stdout.decode("ascii")}")

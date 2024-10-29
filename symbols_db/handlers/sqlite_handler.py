@@ -8,7 +8,6 @@ from contextlib import closing
 from symbols_db import SQLITE_TIMEOUT
 
 
-
 def get_cursor():
     connection = sqlite3.connect(BLINTDB_LOCATION, timeout=180.0)
     c = connection.cursor()
@@ -171,10 +170,7 @@ def add_binary_export(infunc, bid):
             connection.commit()
         if res:
             res = res[0][0]
-            if res == bid:
-                return True
-            else:
-                return False
+            return res == bid
 
     def _fetch_infunc_row(infunc):
         with closing(
