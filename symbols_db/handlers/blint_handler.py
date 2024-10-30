@@ -13,7 +13,7 @@ from symbols_db.utils.rust import (from_purl_to_rust_srcname,
 
 def run_blint_on_file(file_path):
     # TODO: assume blint installed
-    blint_command = f"blint sbom --deep -o {file_path}.json -i {file_path}".split(" ")
+    blint_command = f"blint sbom --deep -o {file_path}.json -i {file_path}".split(" ") # TODO: just make a list instead of splitting
     blint_output = subprocess.run(blint_command, cwd=WRAPDB_LOCATION)
 
     if DEBUG_MODE:

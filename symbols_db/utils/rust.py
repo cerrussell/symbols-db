@@ -5,10 +5,11 @@ from symbols_db.utils import HOME_DIRECTORY
 
 
 def from_purl_to_rust_srcname(purl):
+    # TODO: You may want to do some error handling here
     return purl.replace("@", "-").split("/")[1]
 
 
-def get_all_index_names():
+def get_all_index_names():  # TODO: Does this really need to be its own function?
     return os.listdir(f"{HOME_DIRECTORY}/.cargo/registry/src")
 
 

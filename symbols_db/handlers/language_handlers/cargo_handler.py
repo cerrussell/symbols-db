@@ -1,6 +1,6 @@
 import os
 
-from symbols_db import logger
+from symbols_db import logger  # TODO: remove unused import
 from symbols_db.utils.rust import (from_purl_to_rust_srcname,
                                    get_all_index_names,
                                    get_path_names_from_index_names)

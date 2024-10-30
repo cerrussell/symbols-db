@@ -12,11 +12,11 @@ from symbols_db.handlers.sqlite_handler import (add_binary, add_binary_export,
                                                 add_projects)
 
 
-def git_clone_vcpkg():
+def git_clone_vcpkg():  # TODO: Does this really need to be its own function?
     git_clone(VCPKG_URL, VCPKG_LOCATION)
 
 
-def git_checkout_vcpkg_commit():
+def git_checkout_vcpkg_commit():  # TODO: Does this really need to be its own function?
     git_checkout_commit(VCPKG_LOCATION, VCPKG_HASH)
 
 
@@ -28,13 +28,13 @@ def run_vcpkg_install_command():
     )
     if DEBUG_MODE:
         print(install_run.stdout)
-        logger.debug(f'"bootstrap-vcpkg.sh: ":{install_run.stdout.decode('ascii')}')
+        logger.debug(f'"bootstrap-vcpkg.sh: ":{install_run.stdout.decode('ascii')}')  # TODO: fix this
 
     int_command = "./vcpkg integrate install".split(" ")
     int_run = subprocess.run(int_command, cwd=VCPKG_LOCATION, capture_output=True)
     if DEBUG_MODE:
         print(int_run.stdout)
-        logger.debug(f'"vcpkg integrate install: ":{int_run.stdout.decode('ascii')}')
+        logger.debug(f'"vcpkg integrate install: ":{int_run.stdout.decode('ascii')}') # TODO: fix this
 
 
 def exec_explorer(directory):
@@ -61,7 +61,7 @@ def exec_explorer(directory):
                 print(
                     "Error: 'file' command not found. Make sure it's installed and in your PATH."
                 )
-                return []
+                return [] # TODO: Do you really want to return early, or should you be going to the next file in the iteration with continue?
     return executables
 
 
@@ -81,7 +81,7 @@ def mt_vcpkg_blint_db_build(project_name):
     logger.debug(f"Running {project_name}")
     try:
         execs = add_project_vcpkg_db(project_name)
-    except Exception as e:
+    except Exception as e:  # TODO: Can we make this more specific so as to avoid using 'Exception'?
         logger.info(f"error encountered with {project_name}")
         logger.error(e)
         logger.error(traceback.format_exc())

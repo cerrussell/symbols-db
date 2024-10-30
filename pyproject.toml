@@ -4,11 +4,12 @@ version = "0.1.0"
 description = ""
 authors = ["Aryan Rajoria <aryanrajoria1003@gmail.com>"]
 readme = "README.md"
+# TODO: Add missing metadata, like license - note, you may need to check with your university as they may own your IP
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 blint = "^2.2.3"
-isort = "^5.13.2"
+isort = "^5.13.2"  # TODO: isort,black,flake8 should be in tool.poetry.group.dev.dependencies
 black = "^24.10.0"
 flake8 = "^7.1.1"
 

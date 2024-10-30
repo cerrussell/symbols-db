@@ -18,7 +18,7 @@ def create_database():
         sqlite3.connect(BLINTDB_LOCATION, timeout=SQLITE_TIMEOUT)
     ) as connection:
         with closing(connection.cursor()) as c:
-            projects_table = c.execute(
+            projects_table = c.execute(# TODO: Would it make more sense for the purl to be the unique key? And given we have a unique key, do we need a separate pid for the primary key?
                 """
                 CREATE TABLE IF NOT EXISTS Projects (
                     pid     INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -84,7 +84,7 @@ def create_database():
         connection.commit()
 
 
-def clear_sqlite_database():
+def clear_sqlite_database(): # TODO: Does this need to be its own function?
     os.remove(BLINTDB_LOCATION)
 
 

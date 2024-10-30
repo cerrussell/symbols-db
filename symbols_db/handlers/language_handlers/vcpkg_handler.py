@@ -73,7 +73,7 @@ def archive_explorer(directory):
                 print(
                     "Error: 'file' command not found. Make sure it's installed and in your PATH."
                 )
-                return []
+                return []  # TODO: Do we really want to return early?
     return executables
 
 
